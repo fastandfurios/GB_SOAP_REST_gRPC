@@ -4,7 +4,7 @@ namespace LibraryService.Services.Interfaces
 {
     public interface IRepository<T>
     {
-        int? Add(T item);
+        int Add(T item);
 
         int Update(T item);
 

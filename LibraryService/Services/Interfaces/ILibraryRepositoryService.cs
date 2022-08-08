@@ -3,7 +3,7 @@ using LibraryService.Models;
 
 namespace LibraryService.Services.Interfaces
 {
-    public interface ILibraryRepositoryService
+    public interface ILibraryRepositoryService : IRepository<Book>
     {
         IList<Book> GetByTitle(string title);
 
