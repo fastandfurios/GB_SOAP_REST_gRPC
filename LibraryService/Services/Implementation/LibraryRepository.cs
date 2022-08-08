@@ -15,10 +15,27 @@ namespace LibraryService.Services.Implementation
             _dbContext = dbContext;
         }
 
-        public IList<Book> GetByTitle(string title)
+        public int Add(Book book)
         {
-            return _dbContext.Books.Where(book =>
-                book.Title.ToLower().Contains(title.ToLower())).ToList();
+            book.Id = Guid.NewGuid()
+                .ToString()
+                .Replace("-", "")
+                .ToLower()
+                .Remove(0, 8);
+
+            _dbContext.Books.Add(book);
+            return 1;
+        }
+
+        public int Delete(Book book)
+        {
+            _dbContext.Books.Remove(book);
+            return 1;
+        }
+
+        public IList<Book> GetAll()
+        {
+            return _dbContext.Books;
         }
 
         public IList<Book> GetByAuthor(string authorName)
@@ -34,29 +51,23 @@ namespace LibraryService.Services.Implementation
                 book.Category.ToLower().Contains(category.ToLower())).ToList();
         }
 
-        public int? Add(Book item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Delete(Book item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<Book> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
         public Book GetById(string id)
         {
-            throw new NotImplementedException();
+            return _dbContext.Books.FirstOrDefault(b => b.Id.Equals(id));
         }
 
-        public int Update(Book item)
+        public IList<Book> GetByTitle(string title)
         {
-            throw new NotImplementedException();
+            return _dbContext.Books.Where(book =>
+                book.Title.ToLower().Contains(title.ToLower())).ToList();
+        }
+
+        public int Update(Book book)
+        {
+            var foundBook = _dbContext.Books.FirstOrDefault(b => b.Id.Equals(book.Id));
+            var index = _dbContext.Books.IndexOf(foundBook);
+            _dbContext.Books.Insert(index, book);
+            return 1;
         }
     }
 }
