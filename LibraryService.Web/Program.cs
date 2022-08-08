@@ -1,11 +1,18 @@
+#region references
+using LibraryService.Web.Extensions;
+#endregion
+
+
+#region Add services to the container.
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddLibraryWebServiceSoapClient();
 
 var app = builder.Build();
+#endregion
 
-// Configure the HTTP request pipeline.
+#region Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -18,6 +25,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Library}/{action=Index}/{id?}");
 
 app.Run();
+#endregion
