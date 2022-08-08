@@ -29,7 +29,8 @@ namespace LibraryService.Services.Implementation
 
         public int Delete(Book book)
         {
-            _dbContext.Books.Remove(book);
+            var foundBook = _dbContext.Books.FirstOrDefault(b => b.Id.Equals(book.Id));
+            _dbContext.Books.Remove(foundBook);
             return 1;
         }
 
@@ -66,6 +67,7 @@ namespace LibraryService.Services.Implementation
         {
             var foundBook = _dbContext.Books.FirstOrDefault(b => b.Id.Equals(book.Id));
             var index = _dbContext.Books.IndexOf(foundBook);
+            _dbContext.Books.Remove(foundBook);
             _dbContext.Books.Insert(index, book);
             return 1;
         }
