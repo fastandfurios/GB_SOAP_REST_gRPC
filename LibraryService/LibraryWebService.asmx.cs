@@ -25,9 +25,21 @@ namespace LibraryService
         }
 
         [WebMethod]
-        public List<Book> GetBooksByTitle(string title)
+        public int Add(Book book)
         {
-            return _libraryRepositoryService.GetByTitle(title).ToList();
+            return _libraryRepositoryService.Add(book);
+        }
+
+        [WebMethod]
+        public int Delete(Book book)
+        {
+            return _libraryRepositoryService.Delete(book);
+        }
+
+        [WebMethod]
+        public List<Book> GetAll()
+        {
+            return _libraryRepositoryService.GetAll().ToList();
         }
 
         [WebMethod]
@@ -40,6 +52,24 @@ namespace LibraryService
         public List<Book> GetBooksByCategory(string category)
         {
             return _libraryRepositoryService.GetByCategory(category).ToList();
+        }
+
+        [WebMethod]
+        public Book GetById(string id)
+        {
+            return _libraryRepositoryService.GetById(id);
+        }
+
+        [WebMethod]
+        public List<Book> GetBooksByTitle(string title)
+        {
+            return _libraryRepositoryService.GetByTitle(title).ToList();
+        }
+
+        [WebMethod]
+        public int Update(Book book)
+        {
+            return _libraryRepositoryService.Update(book);
         }
     }
 }
