@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient", "ConsoleCli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson_1", "Lesson_1", "{4B9D4CED-2295-4B34-89FC-146B48C82457}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson_2", "Lesson_2", "{106A0302-8397-47C0-A70B-C62E028A4AEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingService", "WorkingService\WorkingService.csproj", "{DB9B56A9-EFF9-452C-8520-0C6696815A29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{9584560B-FD73-478A-91B1-10F990D327A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9584560B-FD73-478A-91B1-10F990D327A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9584560B-FD73-478A-91B1-10F990D327A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB9B56A9-EFF9-452C-8520-0C6696815A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB9B56A9-EFF9-452C-8520-0C6696815A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB9B56A9-EFF9-452C-8520-0C6696815A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB9B56A9-EFF9-452C-8520-0C6696815A29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +45,7 @@ Global
 		{BB921D75-968C-448B-9E36-029A8DCEC044} = {4B9D4CED-2295-4B34-89FC-146B48C82457}
 		{054D16F9-E044-44FB-A1D4-CD9497061F91} = {4B9D4CED-2295-4B34-89FC-146B48C82457}
 		{9584560B-FD73-478A-91B1-10F990D327A2} = {4B9D4CED-2295-4B34-89FC-146B48C82457}
+		{DB9B56A9-EFF9-452C-8520-0C6696815A29} = {106A0302-8397-47C0-A70B-C62E028A4AEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5841D0B-34A8-4E53-B820-ED7C2B42F80E}
