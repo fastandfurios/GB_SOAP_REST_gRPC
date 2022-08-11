@@ -61,20 +61,28 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service1.svc" />
+    <Content Include="WorkingService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service1.svc.cs">
-      <DependentUpon>Service1.svc</DependentUpon>
+    <Compile Include="AppService\Interfaces\IScriptService.cs" />
+    <Compile Include="AppService\Interfaces\IStatisticsService.cs" />
+    <Compile Include="AppService\Interfaces\IWorkingService.cs" />
+    <Compile Include="AppService\Interfaces\IWorkingServiceCallback.cs" />
+    <Compile Include="AppService\Interfaces\Settings\ISettingsService.cs" />
+    <Compile Include="AppService\Services\ScriptService.cs" />
+    <Compile Include="AppService\Services\Settings\SettingsService.cs" />
+    <Compile Include="AppService\Services\StatisticsService.cs" />
+    <Compile Include="WorkingService.svc.cs">
+      <DependentUpon>WorkingService.svc</DependentUpon>
     </Compile>
-    <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="AppService\Scripts\WorkingScript.script">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
