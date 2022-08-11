@@ -1,0 +1,15 @@
+﻿namespace WorkingService
+{
+	// Обязательный класс SampleScript, содержит процедуру, точку входа (EntryPoint)
+	// в основной цикл обработки сценария
+	public class Service
+	{
+		// Обязательная процедура EntryPoint
+		public bool EntryPoint()
+		{
+			System.Random random = new System.Random();
+            int number = random.Next(0, 2);
+            return number == 0 ? true : false;
+		}	
+	}
+}
