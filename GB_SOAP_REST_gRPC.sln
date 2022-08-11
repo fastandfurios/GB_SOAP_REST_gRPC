@@ -15,6 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson_2", "Lesson_2", "{10
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingService", "WorkingService\WorkingService.csproj", "{DB9B56A9-EFF9-452C-8520-0C6696815A29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingClient", "WorkingClient\WorkingClient.csproj", "{029ADB6F-C26E-46AC-B235-B0E8350CB99E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DB9B56A9-EFF9-452C-8520-0C6696815A29} = {DB9B56A9-EFF9-452C-8520-0C6696815A29}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +42,10 @@ Global
 		{DB9B56A9-EFF9-452C-8520-0C6696815A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB9B56A9-EFF9-452C-8520-0C6696815A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB9B56A9-EFF9-452C-8520-0C6696815A29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{029ADB6F-C26E-46AC-B235-B0E8350CB99E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{029ADB6F-C26E-46AC-B235-B0E8350CB99E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{029ADB6F-C26E-46AC-B235-B0E8350CB99E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{029ADB6F-C26E-46AC-B235-B0E8350CB99E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +55,7 @@ Global
 		{054D16F9-E044-44FB-A1D4-CD9497061F91} = {4B9D4CED-2295-4B34-89FC-146B48C82457}
 		{9584560B-FD73-478A-91B1-10F990D327A2} = {4B9D4CED-2295-4B34-89FC-146B48C82457}
 		{DB9B56A9-EFF9-452C-8520-0C6696815A29} = {106A0302-8397-47C0-A70B-C62E028A4AEB}
+		{029ADB6F-C26E-46AC-B235-B0E8350CB99E} = {106A0302-8397-47C0-A70B-C62E028A4AEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5841D0B-34A8-4E53-B820-ED7C2B42F80E}
