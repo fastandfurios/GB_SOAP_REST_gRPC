@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CSharp;
+using Serilog;
 using WorkingService.AppService.Interfaces;
 using WorkingService.AppService.Interfaces.Settings;
 
@@ -29,63 +30,64 @@ namespace WorkingService.AppService.Services
 
         public bool Compile()
         {
-            var compilerParameters = GetCompilerParameters();
-
-            var stringBuilder = new StringBuilder();
-
-            using (var fileStream = File.Open(_settingsService.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            try
             {
-                var streamReader = new StreamReader(fileStream);
-                while (streamReader.ReadLine() is string entry)
-                    stringBuilder.AppendLine(entry);
+                var compilerParameters = GetCompilerParameters();
+
+                var stringBuilder = new StringBuilder();
+
+                using (var fileStream = File.Open(_settingsService.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    var streamReader = new StreamReader(fileStream);
+                    while (streamReader.ReadLine() is string entry)
+                        stringBuilder.AppendLine(entry);
+                }
+
+                var provider = new CSharpCodeProvider();
+                _compilerResults = provider.CompileAssemblyFromSource(compilerParameters, stringBuilder.ToString());
+
+                return !IsContainsErrors();
             }
-
-            var provider = new CSharpCodeProvider();
-            _compilerResults = provider.CompileAssemblyFromSource(compilerParameters, stringBuilder.ToString());
-
-            return !IsContainsErrors();
+            catch (Exception e)
+            {
+                Logger.Log.Error(e, $"{DateTime.Now} | {e.Source} | {e.Message}");
+                return false;
+            }
         }
 
         public void Run()
         {
-            try
+            if (_compilerResults == null || (_compilerResults.Errors != null && _compilerResults.Errors.Count != 0))
+                if (!Compile())
+                    return;
+
+            var type = _compilerResults.CompiledAssembly.GetType("WorkingService.Service");
+            if (type == null) return;
+
+            var entryPointMethod = type.GetMethod("EntryPoint");
+            if (entryPointMethod == null) return;
+
+            Task.Run(() =>
             {
-                if (_compilerResults == null || (_compilerResults.Errors != null && _compilerResults.Errors.Count != 0))
-                    if (!Compile()) return;
-
-                var type = _compilerResults.CompiledAssembly.GetType("WorkingService.Service");
-                if (type == null) return;
-
-                var entryPointMethod = type.GetMethod("EntryPoint");
-                if (entryPointMethod == null) return;
-
-                Task.Run(() =>
+                try
                 {
-                    try
+                    for (int i = 0; i < 10; i++)
                     {
-                        for (int i = 0; i < 10; i++)
-                        {
-                            if (entryPointMethod.Invoke(Activator.CreateInstance(type), new object[] { }) is bool)
-                                _statisticsService.SuccessTacts++;
-                            else
-                                _statisticsService.ErrorTacts++;
+                        if (entryPointMethod.Invoke(Activator.CreateInstance(type), new object[] { }) is bool)
+                            _statisticsService.SuccessTacts++;
+                        else
+                            _statisticsService.ErrorTacts++;
 
-                            _statisticsService.AllTacts++;
-                            _serviceCallback.UpdateStatistics(_statisticsService as StatisticsService);
-                            Thread.Sleep(1000);
-                        }
+                        _statisticsService.AllTacts++;
+                        _serviceCallback.UpdateStatistics(_statisticsService as StatisticsService);
+                        Thread.Sleep(1000);
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                });
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            
+                }
+                catch (Exception e)
+                {
+                    Log.Logger.Error(e, $"{DateTime.Now} | {e.Source} | {e.Message}");
+                }
+            });
         }
 
         private CompilerParameters GetCompilerParameters()
@@ -113,6 +115,7 @@ namespace WorkingService.AppService.Services
                 for (int i = 0; i < _compilerResults.Errors.Count; i++)
                     compileErrors.AppendLine($"{_compilerResults.Errors[i].FileName} | {_compilerResults.Errors[i].ErrorNumber} | {_compilerResults.Errors[i].ErrorText}");
                 
+                Log.Logger.Information(compileErrors.ToString());
                 return false;
             }
 
