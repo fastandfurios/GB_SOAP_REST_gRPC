@@ -1,5 +1,4 @@
 ﻿using System.ServiceModel;
-using Serilog;
 using WorkingService.AppService.Interfaces;
 using WorkingService.AppService.Interfaces.Settings;
 using WorkingService.AppService.Services;

@@ -42,7 +42,7 @@ namespace WorkingService.AppService.Services
                     while (streamReader.ReadLine() is string entry)
                         stringBuilder.AppendLine(entry);
                 }
-
+                
                 var provider = new CSharpCodeProvider();
                 _compilerResults = provider.CompileAssemblyFromSource(compilerParameters, stringBuilder.ToString());
 
