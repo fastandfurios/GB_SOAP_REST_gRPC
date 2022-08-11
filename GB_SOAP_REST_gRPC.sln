@@ -5,9 +5,11 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryService", "LibraryService\LibraryService.csproj", "{BB921D75-968C-448B-9E36-029A8DCEC044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryService.Web", "LibraryService.Web\LibraryService.Web.csproj", "{054D16F9-E044-44FB-A1D4-CD9497061F91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryService.Web", "LibraryService.Web\LibraryService.Web.csproj", "{054D16F9-E044-44FB-A1D4-CD9497061F91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{9584560B-FD73-478A-91B1-10F990D327A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{9584560B-FD73-478A-91B1-10F990D327A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson_1", "Lesson_1", "{4B9D4CED-2295-4B34-89FC-146B48C82457}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB921D75-968C-448B-9E36-029A8DCEC044} = {4B9D4CED-2295-4B34-89FC-146B48C82457}
+		{054D16F9-E044-44FB-A1D4-CD9497061F91} = {4B9D4CED-2295-4B34-89FC-146B48C82457}
+		{9584560B-FD73-478A-91B1-10F990D327A2} = {4B9D4CED-2295-4B34-89FC-146B48C82457}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5841D0B-34A8-4E53-B820-ED7C2B42F80E}
