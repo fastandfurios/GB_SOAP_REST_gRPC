@@ -46,7 +46,7 @@ namespace WorkingService.AppService.Services
                 var provider = new CSharpCodeProvider();
                 _compilerResults = provider.CompileAssemblyFromSource(compilerParameters, stringBuilder.ToString());
 
-                return !IsContainsErrors();
+                return IsContainsErrors();
             }
             catch (Exception e)
             {
