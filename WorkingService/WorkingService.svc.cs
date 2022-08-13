@@ -13,12 +13,14 @@ namespace WorkingService
         private readonly IStatisticsService _statisticsService;
         private readonly ISettingsService _settingsService;
 
+        #region ctor
         public WorkingService()
         {
             _statisticsService = new StatisticsService();
             _settingsService = new SettingsService();
             _scriptService = new ScriptService(_settingsService, _statisticsService, Callback);
         }
+        #endregion
 
         IWorkingServiceCallback Callback =>
             OperationContext.Current.GetCallbackChannel<IWorkingServiceCallback>();
