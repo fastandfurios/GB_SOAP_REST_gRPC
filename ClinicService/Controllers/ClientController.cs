@@ -46,6 +46,7 @@ namespace ClinicService.Controllers
             _clientRepository.Update(new Client
             {
                 ClientId = updateRequest.ClientId,
+                Document = updateRequest.Document,
                 Surname = updateRequest.Surname,
                 FirstName = updateRequest.FirstName,
                 Patronymic = updateRequest.Patronymic
@@ -67,8 +68,8 @@ namespace ClinicService.Controllers
 
         [HttpGet("get/{id}")]
         [ProducesResponseType(typeof(Client), StatusCodes.Status200OK)]
-        public IActionResult GetById([FromRoute] int clientId) =>
-            Ok(_clientRepository.GetById(clientId));
+        public IActionResult GetById([FromRoute] int id) =>
+            Ok(_clientRepository.GetById(id));
 
         #endregion
     }
