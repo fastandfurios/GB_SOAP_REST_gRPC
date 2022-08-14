@@ -25,7 +25,6 @@ builder.Services.AddHttpLogging(logging =>
     logging.RequestHeaders.Add("X-Forwarded-For");
 });
 
-
 builder.Host.ConfigureLogging(logging =>
 {
     logging.ClearProviders();
@@ -50,6 +49,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpLogging();
 
 app.UseAuthorization();
 app.UseRouting();
