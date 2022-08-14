@@ -3,12 +3,22 @@ using ClinicService.Data.Infrastructure.Contexts;
 using ClinicService.Interfaces.Repositories;
 using ClinicService.Services;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
+using System.Net;
 #endregion
 
 #region Add services to the container.
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Listen(IPAddress.Any, 5001, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
 
 builder.Services.AddDbContext<ClinicServiceDbContext>(options =>
 {
@@ -32,6 +42,8 @@ builder.Host.ConfigureLogging(logging =>
 
 }).UseNLog(new NLogAspNetCoreOptions() { RemoveLoggerFactoryFilter = true });
 
+builder.Services.AddGrpc();
+
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IConsultationRepository, ConsultationRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
@@ -50,11 +62,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpLogging();
+app.UseWhen(
+    ctx => ctx.Request.ContentType != "application/grpc",
+    builder =>
+    {
+        builder.UseHttpLogging();
+    }
+);
 
 app.UseAuthorization();
+
 app.UseRouting();
 app.MapControllers();
+
+app.UseEndpoints(endpoints =>
+{
+    // Communication with gRPC endpoints must be made through a gRPC client.
+    // To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909
+    endpoints.MapGrpcService<ClientService>();
+});
 
 app.Run();
 #endregion
