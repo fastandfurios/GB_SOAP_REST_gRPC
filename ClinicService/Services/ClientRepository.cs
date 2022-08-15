@@ -1,4 +1,5 @@
-﻿using ClinicService.Data.Infrastructure.Contexts;
+﻿using AutoMapper;
+using ClinicService.Data.Infrastructure.Contexts;
 using ClinicService.Data.Infrastructure.Models;
 using ClinicService.Interfaces.Repositories;
 
@@ -10,32 +11,34 @@ namespace ClinicService.Services
 
         private readonly ClinicServiceDbContext _dbContext;
         private readonly ILogger<ClientRepository> _logger;
+        private readonly IMapper _mapper;
 
         #endregion
 
         #region Constructors
 
         public ClientRepository(ClinicServiceDbContext dbContext,
-            ILogger<ClientRepository> logger)
+            ILogger<ClientRepository> logger, IMapper mapper)
         {
             _logger = logger;
+            _mapper = mapper;
             _dbContext = dbContext;
         }
 
         #endregion
 
-        public int Add(Client item)
+        public int Add(Client client)
         {
-            _dbContext.Clients.Add(item);
+            _dbContext.Clients.Add(client);
             _dbContext.SaveChanges();
-            return item.ClientId;
+            return client.ClientId;
         }
 
-        public void Delete(Client item)
+        public void Delete(Client client)
         {
-            if (item == null)
+            if (client == null)
                 throw new NullReferenceException();
-            Delete(item.ClientId);
+            Delete(client.ClientId);
         }
 
         public void Delete(int id)
@@ -57,20 +60,21 @@ namespace ClinicService.Services
             return _dbContext.Clients.FirstOrDefault(client => client.ClientId == id);
         }
 
-        public void Update(Client item)
+        public void Update(Client client)
         {
-            if (item == null)
+            if (client == null)
                 throw new NullReferenceException();
 
-            var client = GetById(item.ClientId);
-            if (client == null)
+            var searchingClient = GetById(client.ClientId);
+            if (searchingClient == null)
                 throw new KeyNotFoundException();
 
-            client.ClientId = item.ClientId;
-            client.Document = item.Document;
-            client.Surname = item.Surname;
-            client.FirstName = item.FirstName;
-            client.Patronymic = item.Patronymic;
+            //searchingClient.ClientId = client.ClientId;
+            //searchingClient.Document = client.Document;
+            //searchingClient.Surname = client.Surname;
+            //searchingClient.FirstName = client.FirstName;
+            //searchingClient.Patronymic = client.Patronymic;
+            _mapper.Map<Client>(searchingClient);
 
             _dbContext.Update(client);
             _dbContext.SaveChanges();

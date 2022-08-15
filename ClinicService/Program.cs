@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 using System.Net;
+using ClinicService.Extensions;
+
 #endregion
 
 #region Add services to the container.
@@ -51,6 +53,8 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMapper();
 #endregion
 
 #region Configure the HTTP request pipeline.

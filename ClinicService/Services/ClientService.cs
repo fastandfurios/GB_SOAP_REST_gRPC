@@ -1,4 +1,5 @@
-﻿using ClientServiceProtos;
+﻿using AutoMapper;
+using ClientServiceProtos;
 using ClinicService.Data.Infrastructure.Contexts;
 using ClinicService.Data.Infrastructure.Models;
 using Grpc.Core;
@@ -12,31 +13,26 @@ namespace ClinicService.Services
 
         private readonly ClinicServiceDbContext _dbContext;
         private readonly ILogger<ClientService> _logger;
+        private readonly IMapper _mapper;
 
         #endregion
 
         #region Constructors
 
         public ClientService(ClinicServiceDbContext dbContext,
-            ILogger<ClientService> logger)
+            ILogger<ClientService> logger, IMapper mapper)
         {
             _logger = logger;
+            _mapper = mapper;
             _dbContext = dbContext;
         }
 
         #endregion
 
-        public override Task<ClientServiceProtos.CreateClientResponse> CreateClient(ClientServiceProtos.CreateClientRequest request, ServerCallContext context)
+        public override Task<CreateClientResponse> CreateClient(CreateClientRequest request, ServerCallContext context)
         {
-            var client = new Client
-            {
-                Document = request.Document,
-                Surname = request.Surname,
-                FirstName = request.FirstName,
-                Patronymic = request.Patronymic
-            };
+            var client = _mapper.Map<Client>(request);
             _dbContext.Clients.Add(client);
-
             _dbContext.SaveChanges();
 
             var response = new CreateClientResponse
@@ -50,14 +46,8 @@ namespace ClinicService.Services
         public override Task<GetClientsResponse> GetClients(GetClientsRequest request, ServerCallContext context)
         {
             var response = new GetClientsResponse();
-            response.Clients.AddRange(_dbContext.Clients.Select(client => new ClientResponse
-            {
-                ClientId = client.ClientId,
-                Document = client.Document,
-                FirstName = client.FirstName,
-                Patronymic = client.Patronymic,
-                Surname = client.Surname
-            }).ToList());
+            response.Clients.AddRange(_dbContext.Clients.Select(client => _mapper.Map<ClientResponse>(client))
+                .ToList());
 
             return Task.FromResult(response);
         }
