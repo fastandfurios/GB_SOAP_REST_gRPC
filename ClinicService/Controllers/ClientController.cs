@@ -1,4 +1,5 @@
-﻿using ClinicService.Data.Infrastructure.Models;
+﻿using AutoMapper;
+using ClinicService.Data.Infrastructure.Models;
 using ClinicService.Interfaces.Repositories;
 using ClinicService.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +14,18 @@ namespace ClinicService.Controllers
 
         private readonly IClientRepository _clientRepository;
         private readonly ILogger<ClientController> _logger;
+        private readonly IMapper _mapper;
 
         #endregion
 
         #region Constructors
 
         public ClientController(IClientRepository clientRepository,
-            ILogger<ClientController> logger)
+            ILogger<ClientController> logger,
+            IMapper mapper)
         {
             _logger = logger;
+            _mapper = mapper;
             _clientRepository = clientRepository;
         }
 
@@ -32,25 +36,12 @@ namespace ClinicService.Controllers
         [HttpPost("create")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public IActionResult Create([FromBody] CreateClientRequest createRequest) =>
-            Ok(_clientRepository.Add(new Client
-            {
-                Document = createRequest.Document,
-                Surname = createRequest.Surname,
-                FirstName = createRequest.FirstName,
-                Patronymic = createRequest.Patronymic
-            }));
+            Ok(_clientRepository.Add(_mapper.Map<Client>(createRequest)));
 
         [HttpPut("update")]
         public IActionResult Update([FromBody] UpdateClientRequest updateRequest)
         {
-            _clientRepository.Update(new Client
-            {
-                ClientId = updateRequest.ClientId,
-                Document = updateRequest.Document,
-                Surname = updateRequest.Surname,
-                FirstName = updateRequest.FirstName,
-                Patronymic = updateRequest.Patronymic
-            });
+            _clientRepository.Update(_mapper.Map<Client>(updateRequest));
             return Ok();
         }
 
