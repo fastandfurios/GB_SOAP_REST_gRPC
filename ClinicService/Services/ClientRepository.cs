@@ -69,12 +69,7 @@ namespace ClinicService.Services
             if (searchingClient == null)
                 throw new KeyNotFoundException();
 
-            //searchingClient.ClientId = client.ClientId;
-            //searchingClient.Document = client.Document;
-            //searchingClient.Surname = client.Surname;
-            //searchingClient.FirstName = client.FirstName;
-            //searchingClient.Patronymic = client.Patronymic;
-            _mapper.Map<Client>(searchingClient);
+            client = _mapper.Map<Client>(searchingClient);
 
             _dbContext.Update(client);
             _dbContext.SaveChanges();
