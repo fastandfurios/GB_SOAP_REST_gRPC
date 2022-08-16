@@ -101,14 +101,12 @@ static void GetClientById(ClientService.ClientServiceClient service)
         ClientId = 2
     });
 
-    Console.WriteLine($"Consultation ({response.ClientId}) created successfully.");
-
-    Console.WriteLine($"Client: {response.ClientId} {response.Document} {response.FirstName} {response.Surname} {response.Patronymic}");
+    Console.WriteLine($"Client: ClientId = {response.ClientId} Document = {response.Document} FirstName = {response.FirstName} Surname = {response.Surname} Patronymic = {response.Patronymic}");
     foreach (var pet in response.Pets)
-        Console.WriteLine($"Pet: {pet.PetId} {pet.Name} {pet.Birthday}");
+        Console.WriteLine($"Pet: PetId = {pet.PetId} Name = {pet.Name} Birthday = {pet.Birthday.ToDateTime()}");
 
     foreach (var consultation in response.Consultations)
-        Console.WriteLine($"Consultation: {consultation.ConsultationId} {consultation.ConsultationDate} {consultation.Description}");
+        Console.WriteLine($"Consultation: ConsultationId = {consultation.ConsultationId} ConsultationDate = {consultation.ConsultationDate.ToDateTime()} Description = {consultation.Description}");
     
 }
 #endregion
