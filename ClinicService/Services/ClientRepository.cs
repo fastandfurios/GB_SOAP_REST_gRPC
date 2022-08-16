@@ -10,6 +10,8 @@ namespace ClinicService.Services
         #region Serives
 
         private readonly ClinicServiceDbContext _dbContext;
+        private readonly IPetRepository _petRepository;
+        private readonly IConsultationRepository _consultationRepository;
         private readonly ILogger<ClientRepository> _logger;
         private readonly IMapper _mapper;
 
@@ -18,10 +20,15 @@ namespace ClinicService.Services
         #region Constructors
 
         public ClientRepository(ClinicServiceDbContext dbContext,
-            ILogger<ClientRepository> logger, IMapper mapper)
+            ILogger<ClientRepository> logger,
+            IMapper mapper,
+            IPetRepository petRepository,
+            IConsultationRepository consultationRepository)
         {
             _logger = logger;
             _mapper = mapper;
+            _petRepository = petRepository;
+            _consultationRepository = consultationRepository;
             _dbContext = dbContext;
         }
 
@@ -57,7 +64,10 @@ namespace ClinicService.Services
 
         public Client? GetById(int id)
         {
-            return _dbContext.Clients.FirstOrDefault(client => client.ClientId == id);
+            var client = _dbContext.Clients.FirstOrDefault(client => client.ClientId == id);
+            client.Pets = _petRepository.GetAll().Where(p => p.ClientId == id).ToList();
+            client.Consultations = _consultationRepository.GetAll().Where(p => p.ClientId == id).ToList();
+            return client;
         }
 
         public void Update(Client client)

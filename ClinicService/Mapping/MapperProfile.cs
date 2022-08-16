@@ -4,6 +4,8 @@ using ClinicService.Data.Infrastructure.Models;
 using ConsultationServiceProtos;
 using Google.Protobuf.WellKnownTypes;
 using PetServiceProtos;
+using Consultation = ClinicService.Data.Infrastructure.Models.Consultation;
+using Pet = ClinicService.Data.Infrastructure.Models.Pet;
 
 namespace ClinicService.Mapping
 {
@@ -17,6 +19,9 @@ namespace ClinicService.Mapping
             CreateMap<UpdateClientRequest, Client>();
 
             CreateMap<Pet, Pet>();
+            CreateMap<Pet, ClientServiceProtos.Pet>()
+                .ForMember(dest => dest.Birthday,
+                    act => act.MapFrom(src => Timestamp.FromDateTime(src.Birthday.ToUniversalTime())));
             CreateMap<Pet, PetResponse>()
                 .ForMember(dest => dest.Birthday,
                     act => act.MapFrom(src => Timestamp.FromDateTime(src.Birthday.ToUniversalTime())));
@@ -27,6 +32,9 @@ namespace ClinicService.Mapping
                 .ForMember(dest => dest.Birthday,
                     act => act.MapFrom(src => src.Birthday.ToDateTime()));
 
+            CreateMap<Consultation, ClientServiceProtos.Consultation>()
+                .ForMember(dest => dest.ConsultationDate,
+                    act => act.MapFrom(src => Timestamp.FromDateTime(src.ConsultationDate.ToUniversalTime())));
             CreateMap<Consultation, Consultation>();
             CreateMap<Consultation, ConsultationResponse>()
                 .ForMember(dest => dest.ConsultationDate,

@@ -3,6 +3,7 @@ using ClientServiceProtos;
 using ClinicService.Data.Infrastructure.Contexts;
 using ClinicService.Data.Infrastructure.Models;
 using Grpc.Core;
+using PetServiceProtos;
 using static ClientServiceProtos.ClientService;
 
 namespace ClinicService.Services
@@ -86,7 +87,22 @@ namespace ClinicService.Services
         public override Task<ClientResponse> GetClientById(GetClientByIdRequest request, ServerCallContext context)
         {
             var client = _dbContext.Clients.FirstOrDefault(c => c.ClientId == request.ClientId);
-            var response = _mapper.Map<ClientResponse>(client);
+            if (client is null)
+                return Task.FromResult(new ClientResponse());
+
+            client.Pets = _dbContext.Pets.Where(p => p.ClientId == request.ClientId).ToList();
+            client.Consultations = _dbContext.Consultations.Where(c => c.ClientId == request.ClientId).ToList();
+            var response = new ClientResponse
+            {
+                ClientId = client.ClientId,
+                Document = client.Document,
+                FirstName = client.FirstName,
+                Patronymic = client.Patronymic,
+                Surname = client.Surname
+            };
+            response.Pets.AddRange(client.Pets.Select(pet => _mapper.Map<ClientServiceProtos.Pet>(pet)).ToList());
+            response.Consultations.AddRange(client.Consultations.Select(c => _mapper.Map<ClientServiceProtos.Consultation>(c)).ToList());
+
             return Task.FromResult(response);
         }
 

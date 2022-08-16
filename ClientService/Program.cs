@@ -12,9 +12,10 @@ var clientService = new ClientService.ClientServiceClient(channel);
 var consultationService = new ConsultationService.ConsultationServiceClient(channel);
 var petService = new PetService.PetServiceClient(channel);
 
-CreateClient(clientService);
-CreatePet(petService);
-CreateConsultation(consultationService);
+//CreateClient(clientService);
+//CreatePet(petService);
+//CreateConsultation(consultationService);
+GetClientById(clientService);
 
 Console.ReadKey();
 
@@ -49,8 +50,8 @@ static void CreatePet(PetService.PetServiceClient service)
     var response = service.CreatePet(new CreatePetRequest
     {
         Birthday = Timestamp.FromDateTime(DateTime.UtcNow),
-        Name = "Бобик",
-        ClientId = 4
+        Name = "Барбос",
+        ClientId = 2
     });
 
     Console.WriteLine($"Pet ({response.PetId}) created successfully.");
@@ -91,5 +92,23 @@ static void CreateConsultation(ConsultationService.ConsultationServiceClient ser
                 $"({consultationDto.ConsultationId} {consultationDto.ConsultationDate} {consultationDto.Description}) {consultationDto.ClientId} {consultationDto.PetId}");
         }
     }
+}
+
+static void GetClientById(ClientService.ClientServiceClient service)
+{
+    var response = service.GetClientById(new GetClientByIdRequest
+    {
+        ClientId = 2
+    });
+
+    Console.WriteLine($"Consultation ({response.ClientId}) created successfully.");
+
+    Console.WriteLine($"Client: {response.ClientId} {response.Document} {response.FirstName} {response.Surname} {response.Patronymic}");
+    foreach (var pet in response.Pets)
+        Console.WriteLine($"Pet: {pet.PetId} {pet.Name} {pet.Birthday}");
+
+    foreach (var consultation in response.Consultations)
+        Console.WriteLine($"Consultation: {consultation.ConsultationId} {consultation.ConsultationDate} {consultation.Description}");
+    
 }
 #endregion
