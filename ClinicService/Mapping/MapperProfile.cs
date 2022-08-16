@@ -2,11 +2,8 @@
 using ClientServiceProtos;
 using ClinicService.Data.Infrastructure.Models;
 using ConsultationServiceProtos;
+using Google.Protobuf.WellKnownTypes;
 using PetServiceProtos;
-using CreateConsultationRequest = ClinicService.Models.Requests.Consultations.CreateConsultationRequest;
-using CreatePetRequest = ClinicService.Models.Requests.Pets.CreatePetRequest;
-using UpdateConsultationRequest = ClinicService.Models.Requests.Consultations.UpdateConsultationRequest;
-using UpdatePetRequest = ClinicService.Models.Requests.Pets.UpdatePetRequest;
 
 namespace ClinicService.Mapping
 {
@@ -14,21 +11,32 @@ namespace ClinicService.Mapping
     {
         public MapperProfile()
         {
-            CreateMap<Pet, Pet>();
             CreateMap<Client, Client>();
-            CreateMap<Consultation, Consultation>();
-
             CreateMap<Client, ClientResponse>();
-            CreateMap<ClientResponse, Client>();
-            CreateMap<Pet, PetResponse>();
-            CreateMap<Consultation, ConsultationResponse>();
-
             CreateMap<CreateClientRequest, Client>();
             CreateMap<UpdateClientRequest, Client>();
-            CreateMap<CreatePetRequest, Pet>();
-            CreateMap<UpdatePetRequest, Pet>();
-            CreateMap<CreateConsultationRequest, Consultation>();
-            CreateMap<UpdateConsultationRequest, Consultation>();
+
+            CreateMap<Pet, Pet>();
+            CreateMap<Pet, PetResponse>()
+                .ForMember(dest => dest.Birthday,
+                    act => act.MapFrom(src => Timestamp.FromDateTime(src.Birthday.ToUniversalTime())));
+            CreateMap<CreatePetRequest, Pet>()
+                .ForMember(dest => dest.Birthday,
+                    act => act.MapFrom(src => src.Birthday.ToDateTime()));
+            CreateMap<UpdatePetRequest, Pet>()
+                .ForMember(dest => dest.Birthday,
+                    act => act.MapFrom(src => src.Birthday.ToDateTime()));
+
+            CreateMap<Consultation, Consultation>();
+            CreateMap<Consultation, ConsultationResponse>()
+                .ForMember(dest => dest.ConsultationDate,
+                    act => act.MapFrom(src => Timestamp.FromDateTime(src.ConsultationDate.ToUniversalTime())));
+            CreateMap<CreateConsultationRequest, Consultation>()
+                .ForMember(dest => dest.ConsultationDate,
+                    act => act.MapFrom(src => src.ConsultationDate.ToDateTime()));
+            CreateMap<UpdateConsultationRequest, Consultation>()
+                .ForMember(dest => dest.ConsultationDate,
+                    act => act.MapFrom(src => src.ConsultationDate.ToDateTime()));
         }
     }
 }
