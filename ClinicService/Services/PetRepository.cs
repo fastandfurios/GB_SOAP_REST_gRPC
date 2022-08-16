@@ -69,9 +69,9 @@ namespace ClinicService.Services
             if (searchingPet == null)
                 throw new KeyNotFoundException();
 
-            pet = _mapper.Map<Pet>(searchingPet);
+            searchingPet = _mapper.Map<Pet>(searchingPet);
 
-            _dbContext.Update(pet);
+            _dbContext.Update(searchingPet);
             _dbContext.SaveChanges();
         }
     }

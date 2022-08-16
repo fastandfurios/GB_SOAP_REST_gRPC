@@ -69,9 +69,9 @@ namespace ClinicService.Services
             if (searchingClient == null)
                 throw new KeyNotFoundException();
 
-            client = _mapper.Map<Client>(searchingClient);
+            searchingClient = _mapper.Map<Client>(searchingClient);
 
-            _dbContext.Update(client);
+            _dbContext.Update(searchingClient);
             _dbContext.SaveChanges();
         }
     }

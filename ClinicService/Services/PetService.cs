@@ -76,8 +76,8 @@ namespace ClinicService.Services
                     ErrMessage = "failed to update entity"
                 });
 
-            var pet = _mapper.Map<Pet>(request);
-            _dbContext.Update(pet);
+            searchingPet = _mapper.Map<Pet>(request);
+            _dbContext.Update(searchingPet);
             _dbContext.SaveChanges();
 
             return Task.FromResult(new UpdatePetResponse());

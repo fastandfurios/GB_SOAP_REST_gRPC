@@ -76,8 +76,8 @@ namespace ClinicService.Services
                     ErrMessage = "such a user was not found"
                 });
 
-            var client = _mapper.Map<Client>(request);
-            _dbContext.Update(client);
+            searchingClient = _mapper.Map<Client>(request);
+            _dbContext.Update(searchingClient);
             _dbContext.SaveChanges();
 
             return Task.FromResult(new UpdateClientResponse());

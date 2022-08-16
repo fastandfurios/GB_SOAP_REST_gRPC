@@ -67,8 +67,8 @@ namespace ClinicService.Services
                     ErrMessage = "the consultation data could not be changed"
                 });
 
-            var consultation = _mapper.Map<Consultation>(request);
-            _dbContext.Consultations.Update(consultation);
+            searchingConsultation = _mapper.Map<Consultation>(request);
+            _dbContext.Consultations.Update(searchingConsultation);
             _dbContext.SaveChanges();
 
             return Task.FromResult(new UpdateConsultationResponse());

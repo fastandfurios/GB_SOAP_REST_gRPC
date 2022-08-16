@@ -69,9 +69,9 @@ namespace ClinicService.Services
             if (searchingConsultation is null)
                 throw new KeyNotFoundException();
 
-            consultation = _mapper.Map<Consultation>(searchingConsultation);
+            searchingConsultation = _mapper.Map<Consultation>(searchingConsultation);
 
-            _dbContext.Update(consultation);
+            _dbContext.Update(searchingConsultation);
             _dbContext.SaveChanges();
         }
     }
