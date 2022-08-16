@@ -29,7 +29,7 @@ message CreateClientRequest {
 message CreateClientResponse {
 		google.protobuf.Int32Value clientId = 1;
 		int32 errCode = 2;
-        string errMessage =3;
+        string errMessage = 3;
 
 }
 
@@ -43,7 +43,7 @@ message UpdateClientRequest {
 
 message UpdateClientResponse {
 		int32 errCode = 1;
-        string errMessage =2;
+        string errMessage = 2;
 }
 
 message DeleteClientRequest {
@@ -52,7 +52,7 @@ message DeleteClientRequest {
 
 message DeleteClientResponse {
 		int32 errCode = 1;
-        string errMessage =2;
+        string errMessage = 2;
 }
 
 message GetClientByIdRequest {
@@ -62,7 +62,7 @@ message GetClientByIdRequest {
 message GetClientByIdResponse {
         ClientResponse client = 1;
         int32 errCode = 2;
-        string errMessage =3;
+        string errMessage = 3;
 }
 
 message GetClientsRequest{
@@ -72,7 +72,7 @@ message GetClientsRequest{
 message GetClientsResponse{
     repeated ClientResponse clients = 1;
     int32 errCode = 2;
-    string errMessage =3;
+    string errMessage = 3;
 }
 
 message ClientResponse {
