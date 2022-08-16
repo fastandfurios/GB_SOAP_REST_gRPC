@@ -4,6 +4,7 @@ option csharp_namespace = "ClientServiceProtos";
 
 // https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/wrappers.proto
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
 
 service ClientService {
 
@@ -16,7 +17,6 @@ service ClientService {
 	rpc GetClientById (GetClientByIdRequest) returns (ClientResponse);
 
 	rpc GetClients (GetClientsRequest) returns (GetClientsResponse);
-
 }
 
 message CreateClientRequest {
@@ -81,4 +81,18 @@ message ClientResponse {
         string surname = 3;
         string firstName = 4;
         string patronymic = 5;
+        repeated Pet pets = 6;
+        repeated Consultation consultations = 7;
+}
+
+message Pet {
+    int32 petId = 1;
+    string name = 3;
+	google.protobuf.Timestamp birthday = 4;
+}
+
+message Consultation {
+    int32 consultationId = 1;
+    google.protobuf.Timestamp consultationDate = 4;
+	string description = 5;
 }
