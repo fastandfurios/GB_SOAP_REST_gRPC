@@ -3,11 +3,12 @@ using ClientServiceProtos;
 using ClinicService.Data.Infrastructure.Contexts;
 using ClinicService.Data.Infrastructure.Models;
 using Grpc.Core;
-using PetServiceProtos;
+using Microsoft.AspNetCore.Authorization;
 using static ClientServiceProtos.ClientService;
 
 namespace ClinicService.Services
 {
+    [Authorize]
     public class ClientService : ClientServiceBase
     {
         #region Serives

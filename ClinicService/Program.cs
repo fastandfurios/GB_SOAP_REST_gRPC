@@ -9,6 +9,7 @@ using NLog.Web;
 using System.Net;
 using System.Text;
 using ClinicService.Extensions;
+using ClinicService.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 #endregion
@@ -21,6 +22,7 @@ builder.WebHost.ConfigureKestrel(options =>
     options.Listen(IPAddress.Any, 5001, listenOptions =>
     {
         listenOptions.Protocols = HttpProtocols.Http2;
+        listenOptions.UseHttps(@"C:\sertificates\testcert.pfx", "Chtlf21");
     });
 });
 
@@ -47,6 +49,8 @@ builder.Host.ConfigureLogging(logging =>
 }).UseNLog(new NLogAspNetCoreOptions() { RemoveLoggerFactoryFilter = true });
 
 builder.Services.AddGrpc();
+
+builder.Services.AddSingleton<IAuthenticateService, AuthenticateService>();
 
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IConsultationRepository, ConsultationRepository>();
@@ -110,6 +114,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapGrpcService<ClientService>();
     endpoints.MapGrpcService<PetService>();
     endpoints.MapGrpcService<ConsultationService>();
+    endpoints.MapGrpcService<AuthService>();
 });
 
 app.Run();

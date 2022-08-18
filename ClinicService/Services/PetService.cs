@@ -2,10 +2,12 @@
 using ClinicService.Data.Infrastructure.Contexts;
 using ClinicService.Data.Infrastructure.Models;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 using PetServiceProtos;
 
 namespace ClinicService.Services
 {
+    [Authorize]
     public class PetService : PetServiceProtos.PetService.PetServiceBase
     {
         #region Serives

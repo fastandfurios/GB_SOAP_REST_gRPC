@@ -3,9 +3,11 @@ using ClinicService.Data.Infrastructure.Contexts;
 using ClinicService.Data.Infrastructure.Models;
 using ConsultationServiceProtos;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClinicService.Services
 {
+    [Authorize]
     public class ConsultationService : ConsultationServiceProtos.ConsultationService.ConsultationServiceBase
     {
         private readonly ClinicServiceDbContext _dbContext;
