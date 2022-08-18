@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 using System.Net;
+using System.Text;
 using ClinicService.Extensions;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 #endregion
 
 #region Add services to the container.
@@ -51,6 +53,29 @@ builder.Services.AddScoped<IConsultationRepository, ConsultationRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddControllers();
+
+builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new
+            TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthenticateService.SecretKey)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            };
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -74,11 +99,10 @@ app.UseWhen(
     }
 );
 
-app.UseAuthorization();
-
 app.UseRouting();
 app.MapControllers();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     // Communication with gRPC endpoints must be made through a gRPC client.
