@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
 using ClinicService.Data.Infrastructure.Contexts;
 using ClinicService.Data.Infrastructure.Models;
 using ClinicService.Enums;
@@ -17,6 +18,7 @@ namespace ClinicService.Services
         #region Services
 
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IMapper _mapper;
 
         #endregion
 
@@ -24,9 +26,10 @@ namespace ClinicService.Services
 
         public const string SecretKey = "kYp3s6v9y/B?E(H+";
 
-        public AuthenticateService(IServiceScopeFactory serviceScopeFactory)
+        public AuthenticateService(IServiceScopeFactory serviceScopeFactory, IMapper mapper)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            _mapper = mapper;
         }
 
         public SessionInfo GetSessionInfo(string sessionToken)
@@ -123,15 +126,7 @@ namespace ClinicService.Services
             {
                 SessionId = accountSession.SessionId,
                 SessionToken = accountSession.SessionToken,
-                Account = new AccountDto
-                {
-                    AccountId = account.AccountId,
-                    EMail = account.EMail,
-                    FirstName = account.FirstName,
-                    LastName = account.LastName,
-                    SecondName = account.SecondName,
-                    Locked = account.Locked
-                }
+                Account = _mapper.Map<AccountDto>(account)
             };
         }
 

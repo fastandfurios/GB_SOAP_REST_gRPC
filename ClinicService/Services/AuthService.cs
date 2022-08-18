@@ -5,6 +5,7 @@ using Res = ClinicService.Models.Responses;
 using Mod = ClinicService.Models;
 using ClinicService.Protos;
 using System.Net.Http.Headers;
+using AutoMapper;
 using ClinicService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
@@ -16,14 +17,16 @@ namespace ClinicService.Services
         #region Services
 
         private readonly IAuthenticateService _authenticateService;
+        private readonly IMapper _mapper;
 
         #endregion
 
         #region Constructors
 
-        public AuthService(IAuthenticateService authenticateService)
+        public AuthService(IAuthenticateService authenticateService, IMapper mapper)
         {
             _authenticateService = authenticateService;
+            _mapper = mapper;
         }
 
         #endregion
@@ -49,15 +52,7 @@ namespace ClinicService.Services
                 {
                     SessionId = authenticationResponse.SessionInfo.SessionId,
                     SessionToken = authenticationResponse.SessionInfo.SessionToken,
-                    Account = new AccountDto
-                    {
-                        AccountId = authenticationResponse.SessionInfo.Account.AccountId,
-                        EMail = authenticationResponse.SessionInfo.Account.EMail,
-                        FirstName = authenticationResponse.SessionInfo.Account.FirstName,
-                        LastName = authenticationResponse.SessionInfo.Account.LastName,
-                        SecondName = authenticationResponse.SessionInfo.Account.SecondName,
-                        Locked = authenticationResponse.SessionInfo.Account.Locked
-                    }
+                    Account = _mapper.Map<AccountDto>(authenticationResponse.SessionInfo.Account)
                 };
             }
 
@@ -97,15 +92,7 @@ namespace ClinicService.Services
                     {
                         SessionId = sessionInfo.SessionId,
                         SessionToken = sessionInfo.SessionToken,
-                        Account = new AccountDto
-                        {
-                            AccountId = sessionInfo.Account.AccountId,
-                            EMail = sessionInfo.Account.EMail,
-                            FirstName = sessionInfo.Account.FirstName,
-                            LastName = sessionInfo.Account.LastName,
-                            SecondName = sessionInfo.Account.SecondName,
-                            Locked = sessionInfo.Account.Locked
-                        }
+                        Account = _mapper.Map<AccountDto>(sessionInfo.Account)
                     }
                 });
             }

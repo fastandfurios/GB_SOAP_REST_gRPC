@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ClientServiceProtos;
 using ClinicService.Data.Infrastructure.Models;
+using ClinicService.Models;
 using ConsultationServiceProtos;
 using Google.Protobuf.WellKnownTypes;
 using PetServiceProtos;
@@ -45,6 +46,9 @@ namespace ClinicService.Mapping
             CreateMap<UpdateConsultationRequest, Consultation>()
                 .ForMember(dest => dest.ConsultationDate,
                     act => act.MapFrom(src => src.ConsultationDate.ToDateTime()));
+
+            CreateMap<Account, AccountDto>();
+            CreateMap<AccountDto, Protos.AccountDto>();
         }
     }
 }
