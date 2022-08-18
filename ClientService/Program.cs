@@ -12,10 +12,10 @@ var clientService = new ClientService.ClientServiceClient(channel);
 var consultationService = new ConsultationService.ConsultationServiceClient(channel);
 var petService = new PetService.PetServiceClient(channel);
 
-//CreateClient(clientService);
+CreateClient(clientService);
 //CreatePet(petService);
 //CreateConsultation(consultationService);
-GetClientById(clientService);
+//GetClientById(clientService);
 
 Console.ReadKey();
 
@@ -24,10 +24,10 @@ static void CreateClient(ClientService.ClientServiceClient service)
 {
     var createClientResponse = service.CreateClient(new CreateClientRequest
     {
-        Document = "doc",
-        FirstName = "Иванов",
-        Surname = "Иван",
-        Patronymic = "Иванович"
+        Document = "Документ123",
+        FirstName = "Петр",
+        Surname = "Петров",
+        Patronymic = "Петрович"
     });
 
     Console.WriteLine($"Client ({createClientResponse.ClientId}) created successfully.");
