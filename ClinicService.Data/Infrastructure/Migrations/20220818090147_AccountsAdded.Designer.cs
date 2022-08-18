@@ -4,16 +4,18 @@ using ClinicService.Data.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ClinicService.Data.Migrations
+namespace ClinicService.Data.Infrastructure.Migrations
 {
     [DbContext(typeof(ClinicServiceDbContext))]
-    partial class ClinicServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220818090147_AccountsAdded")]
+    partial class AccountsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
