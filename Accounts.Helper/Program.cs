@@ -1,6 +1,6 @@
 ﻿using ClinicService;
 
-var (passwordSalt, passwordHash) = PasswordUtils.CreatePasswordHash("54321");
+var (passwordSalt, passwordHash) = PasswordUtils.CreatePasswordHash("12345");
 Console.WriteLine(passwordSalt);
 Console.WriteLine(passwordHash);
 Console.ReadKey();

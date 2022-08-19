@@ -101,6 +101,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
 app.UseWhen(
     ctx => ctx.Request.ContentType != "application/grpc",
     config =>
@@ -109,10 +110,10 @@ app.UseWhen(
     }
 );
 
-app.UseRouting();
-app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 app.UseEndpoints(endpoints =>
 {
     // Communication with gRPC endpoints must be made through a gRPC client.

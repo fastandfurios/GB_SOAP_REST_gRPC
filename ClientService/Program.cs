@@ -13,8 +13,8 @@ var authenticateServiceClient = new ClinicService.Protos.AuthenticateService.Aut
 
 var authenticationResponse = authenticateServiceClient.Login(new ClinicService.Protos.AuthenticationRequest
 {
-    UserName = "test@gmail.com",
-    Password = "54321"
+    UserName = "mail@mail.com",
+    Password = "12345"
 });
 
 if (authenticationResponse.Status != 0)

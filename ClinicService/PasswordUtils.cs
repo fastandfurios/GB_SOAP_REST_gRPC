@@ -3,9 +3,9 @@ using System.Text;
 
 namespace ClinicService
 {
-    public static class PasswordUtils
+    public class PasswordUtils
     {
-        internal static string SecretKey { get; set; }
+        protected internal static string SecretKey { get; set; }
 
         public static (string passwordSalt, string passwordHash) CreatePasswordHash(string password)
         {
