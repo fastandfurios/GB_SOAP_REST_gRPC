@@ -24,7 +24,7 @@ namespace ClinicService.Services
 
         private readonly Dictionary<string, SessionInfo> _sessions = new();
 
-        public const string SecretKey = "kYp3s6v9y/B?E(H+";
+        protected internal static string SecretKey { get; set; }
 
         public AuthenticateService(IServiceScopeFactory serviceScopeFactory, IMapper mapper)
         {

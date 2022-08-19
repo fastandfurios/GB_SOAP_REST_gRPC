@@ -5,7 +5,7 @@ namespace ClinicService
 {
     public static class PasswordUtils
     {
-        private const string SecretKey = "Fz8wMguqN2DGWiD1ICvRxQ==";
+        internal static string SecretKey { get; set; }
 
         public static (string passwordSalt, string passwordHash) CreatePasswordHash(string password)
         {

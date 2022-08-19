@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 using System.Net;
 using System.Text;
+using ClinicService;
 using ClinicService.Extensions;
 using ClinicService.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,12 +18,17 @@ using Microsoft.IdentityModel.Tokens;
 #region Add services to the container.
 var builder = WebApplication.CreateBuilder(args);
 
+var password = builder.Configuration.GetSection("PasswordCertificate");
+var path = builder.Configuration.GetSection("PathCertificate");
+AuthenticateService.SecretKey = builder.Configuration.GetSection("SecretKey").Value;
+PasswordUtils.SecretKey = builder.Configuration.GetSection("Secret_Key").Value;
+
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.Listen(IPAddress.Any, 5001, listenOptions =>
     {
         listenOptions.Protocols = HttpProtocols.Http2;
-        listenOptions.UseHttps(@"C:\sertificates\testcert.pfx", "Chtlf21");
+        listenOptions.UseHttps(path.Value, password.Value);
     });
 });
 
@@ -97,9 +103,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseWhen(
     ctx => ctx.Request.ContentType != "application/grpc",
-    builder =>
+    config =>
     {
-        builder.UseHttpLogging();
+        config.UseHttpLogging();
     }
 );
 
