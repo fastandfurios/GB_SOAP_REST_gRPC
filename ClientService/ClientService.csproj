@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\ClinicService\Protos\auth.proto" GrpcServices="Client">
+      <Link>Protos\auth.proto</Link>
+    </Protobuf>
     <Protobuf Include="..\ClinicService\Protos\clinic.proto" Link="Protos\clinic.proto" GrpcServices="Client" />
     <Protobuf Include="..\ClinicService\Protos\consultation.proto" GrpcServices="Client">
       <Link>Protos\consultation.proto</Link>

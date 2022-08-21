@@ -2,12 +2,14 @@
 using ClinicService.Data.Infrastructure.Models;
 using ClinicService.Interfaces.Repositories;
 using ClinicService.Models.Requests.Consultations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ConsultationController : ControllerBase
     {
         private readonly IConsultationRepository _consultationRepository;

@@ -2,12 +2,14 @@
 using ClinicService.Data.Infrastructure.Models;
 using ClinicService.Interfaces.Repositories;
 using ClinicService.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         #region Serives

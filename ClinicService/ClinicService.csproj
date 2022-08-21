@@ -4,9 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>5d57756c-9419-44bd-8190-6e9a887ec542</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\auth.proto" />
     <None Remove="Protos\clinic.proto" />
     <None Remove="Protos\consultation.proto" />
     <None Remove="Protos\pet.proto" />
@@ -20,6 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\auth.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\clinic.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\consultation.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\pet.proto" GrpcServices="Server" />

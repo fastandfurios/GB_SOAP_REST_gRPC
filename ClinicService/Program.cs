@@ -7,18 +7,28 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 using System.Net;
+using System.Text;
+using ClinicService;
 using ClinicService.Extensions;
-
+using ClinicService.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 #endregion
 
 #region Add services to the container.
 var builder = WebApplication.CreateBuilder(args);
+
+var password = builder.Configuration.GetSection("PasswordCertificate");
+var path = builder.Configuration.GetSection("PathCertificate");
+AuthenticateService.SecretKey = builder.Configuration.GetSection("SecretKey").Value;
+PasswordUtils.SecretKey = builder.Configuration.GetSection("Secret_Key").Value;
 
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.Listen(IPAddress.Any, 5001, listenOptions =>
     {
         listenOptions.Protocols = HttpProtocols.Http2;
+        listenOptions.UseHttps(path.Value, password.Value);
     });
 });
 
@@ -46,11 +56,36 @@ builder.Host.ConfigureLogging(logging =>
 
 builder.Services.AddGrpc();
 
+builder.Services.AddSingleton<IAuthenticateService, AuthenticateService>();
+
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IConsultationRepository, ConsultationRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddControllers();
+
+builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new
+            TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthenticateService.SecretKey)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            };
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -66,19 +101,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
 app.UseWhen(
     ctx => ctx.Request.ContentType != "application/grpc",
-    builder =>
+    config =>
     {
-        builder.UseHttpLogging();
+        config.UseHttpLogging();
     }
 );
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseRouting();
 app.MapControllers();
-
 app.UseEndpoints(endpoints =>
 {
     // Communication with gRPC endpoints must be made through a gRPC client.
@@ -86,6 +121,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapGrpcService<ClientService>();
     endpoints.MapGrpcService<PetService>();
     endpoints.MapGrpcService<ConsultationService>();
+    endpoints.MapGrpcService<AuthService>();
 });
 
 app.Run();
