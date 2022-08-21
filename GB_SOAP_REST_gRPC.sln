@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson_5", "Lesson_5", "{A9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatService", "ChatService\ChatService.csproj", "{04232DD8-29DC-469E-972D-40679B6BDF91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClient", "ChatClient\ChatClient.csproj", "{DCC7D834-E246-459D-BFCD-1063EA265B0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{04232DD8-29DC-469E-972D-40679B6BDF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04232DD8-29DC-469E-972D-40679B6BDF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04232DD8-29DC-469E-972D-40679B6BDF91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCC7D834-E246-459D-BFCD-1063EA265B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCC7D834-E246-459D-BFCD-1063EA265B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCC7D834-E246-459D-BFCD-1063EA265B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCC7D834-E246-459D-BFCD-1063EA265B0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{1D813D58-48F8-413B-B090-E14AA87BE810} = {FCD7F4F8-871A-40FD-88A0-5D8BC0901486}
 		{B9E53E05-86BA-491A-B320-706D773722AC} = {FCD7F4F8-871A-40FD-88A0-5D8BC0901486}
 		{04232DD8-29DC-469E-972D-40679B6BDF91} = {A9968E77-BAE4-4166-84E5-7BD078A436CF}
+		{DCC7D834-E246-459D-BFCD-1063EA265B0A} = {A9968E77-BAE4-4166-84E5-7BD078A436CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5841D0B-34A8-4E53-B820-ED7C2B42F80E}
