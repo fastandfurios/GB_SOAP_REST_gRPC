@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SampleService.Interfaces;
 
 namespace SampleService.Controllers
 {
@@ -6,28 +7,24 @@ namespace SampleService.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly ILogger<WeatherForecastController> _logger;
+        private IRootServiceClient _rootServiceClient;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(
+            IRootServiceClient rootServiceClient,
+            ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+            _rootServiceClient = rootServiceClient;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<ActionResult<IEnumerable<RootServiceNamespace.WeatherForecast>>> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            _logger.LogInformation("WeatherForecastController >>> START  GetWeatherForecast");
+            var res = await _rootServiceClient.Get();
+            _logger.LogInformation("WeatherForecastController >>> END  GetWeatherForecast");
+            return Ok(res);
         }
     }
 }
